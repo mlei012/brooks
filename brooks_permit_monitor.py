@@ -13,7 +13,7 @@ HEADERS = {
 # ===== USER CONFIG =====
 START_DATE = date(2026, 6, 1)
 END_DATE   = date(2026, 7, 22)
-WEBHOOK_URL = "https://discord.com/api/webhooks/1469802251093672206/0ToBbvkcuB9OBpMGwaVByi0u93WVjO54MYhJJEW5QB0sRpyiONCk-J2ZPeEeVJx-kOLk"
+WEBHOOK_URL = os.environ["DISCORD_WEBHOOK"]
 STATE_FILE = "seen_dates.json"
 # =======================
 
