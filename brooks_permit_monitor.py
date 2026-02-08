@@ -1,6 +1,5 @@
 import requests
 from datetime import datetime, date, timedelta
-import json
 import os
 
 API = "https://www.recreation.gov/api/permits/249991/availability/month"
@@ -14,7 +13,6 @@ HEADERS = {
 START_DATE = date(2026, 6, 1)
 END_DATE   = date(2026, 7, 22)
 WEBHOOK_URL = os.environ["DISCORD_WEBHOOK"]
-STATE_FILE = "seen_dates.json"
 # =======================
 
 def month_start(d):
@@ -50,16 +48,6 @@ def extract_available_dates(payload):
                 out.add(d)
     return out
 
-def load_seen():
-    if os.path.exists(STATE_FILE):
-        with open(STATE_FILE, "r") as f:
-            return set(json.load(f))
-    return set()
-
-def save_seen(seen):
-    with open(STATE_FILE, "w") as f:
-        json.dump(sorted(seen), f)
-
 def notify(dates):
     msg = "**Brooks Permit Available**\n" + "\n".join(str(d) for d in dates)
     requests.post(WEBHOOK_URL, json={"content": msg}, timeout=10)
@@ -74,14 +62,8 @@ def main():
 
     hits = [d for d in daterange(START_DATE, END_DATE) if d in available]
 
-    seen = load_seen()
-    new_hits = [str(d) for d in hits if str(d) not in seen]
-
-    if new_hits:
-        notify(new_hits)
-        for d in new_hits:
-            seen.add(d)
-        save_seen(seen)
+    if hits:
+        notify(hits)
 
 if __name__ == "__main__":
     main()
