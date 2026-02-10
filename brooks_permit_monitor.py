@@ -10,8 +10,8 @@ HEADERS = {
 }
 
 # ===== USER CONFIG =====
-START_DATE = date(2026, 6, 1)
-END_DATE   = date(2026, 7, 22)
+START_DATE = date(2026, 7, 1)
+END_DATE   = date(2026, 7, 24)
 WEBHOOK_URL = os.environ["DISCORD_WEBHOOK"]
 # =======================
 
